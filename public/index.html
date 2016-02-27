@@ -7,11 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers/main-controller.js"></script>
     <script src="js/controllers/todo-controller.js"></script>
+    <script src="js/controllers/panel-controller.js"></script>
   </head>
   <body ng-app="todoGamify">
     <div ng-controller="MainController" class="container-fluid"> <!-- open global -->
@@ -45,13 +47,32 @@
           <hr/>
         </div>
         
-        <div class="container row"> <!-- open lists -->
-          <div ng-repeat="todo in todoCtrl.activeTodoList">
-            <blockquote>
-              <h4>{{ todo.brief }}</h4>
-              <a ng-click="todoCtrl.finish( todo )" class="btn btn-info btn-xs">Finish</a>
-            </blockquote>
+        <div ng-controller="PanelController as panelCtrl" class="panel panel-default"> <!-- open lists -->
+        
+          <div class="panel-header">
+            <ul class="nav nav-tabs nav-justified">
+              <li ng-class="{ active: panelCtrl.isSelected(1) }"><a href ng-click="panelCtrl.selectTab(1)">Active</a></li>
+              <li ng-class="{ active: panelCtrl.isSelected(2) }"><a href ng-click="panelCtrl.selectTab(2)">Finished</a></li>
+            </ul>
           </div>
+          
+          <div class="panel-body">
+          
+            <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
+              <div ng-repeat="todo in todoCtrl.activeTodoList" class="todo-container bg-info text-info clearfix">
+                  <span class="h4">{{ todo.brief }}</span>
+                  <a ng-click="todoCtrl.finish(todo)" class="btn btn-info btn-xs pull-right">Finish</a>
+              </div>
+            </div> <!-- close active list -->
+            
+            <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
+              <div ng-repeat="todo in todoCtrl.finishedTodoList" class="todo-container bg-info text-info clearfix">
+                  <h4>{{ todo.brief }}</h4>
+              </div>
+            </div> <!-- close finished list -->
+            
+          </div>
+        
         </div> <!-- close lists -->
         
       </div> <!-- close body -->

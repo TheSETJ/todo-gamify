@@ -1,0 +1,14 @@
+.panel-header a:focus {
+  outline: none
+}
+
+.panel-body {
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.todo-container {
+  margin: 2.5px;
+  padding: 10px;
+  border-radius: 2.5px;
+}
