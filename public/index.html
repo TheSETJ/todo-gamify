@@ -41,7 +41,7 @@
         
         <div class="container"> <!-- open lists -->
           <div ng-repeat="todo in todoCtrl.activeTodoList" class="row">
-            <h3>{{ todo.brief }}</h3>
+            <h4>{{ todo.brief }}</h4>
             <a ng-click="todoCtrl.finish( todo )" class="btn btn-info">Finish</a>
           </div>
         </div> <!-- close lists -->

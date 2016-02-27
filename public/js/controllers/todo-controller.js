@@ -11,13 +11,19 @@ angular.module('todoGamify').controller('TodoController', function() {
   todoCtrl.load = function load() {
     var content = null;
     
-    // convert and load data into active todo list, if there is no data then load in an empty array 
-    content = window.localStorage.getItem("todo-gamify-atl") || [];
-    todoCtrl.activeTodoList = JSON.parse(content);
+    // convert and load data into active todo list, if data is not null
+    content = window.localStorage.getItem("todo-gamify-atl");
     
-    // convert and load data into finished todo list, if there is no data then load in an empty array 
-    content = window.localStorage.getItem("todo-gamify-ftl") || [];
-    todoCtrl.finishedTodoList = JSON.parse(content);
+    if(content != null) {
+      todoCtrl.activeTodoList = JSON.parse(content);
+    }
+    
+    // convert and load data into finished todo list, if data is not null
+    content = window.localStorage.getItem("todo-gamify-ftl");
+    
+    if(content != null) {
+      todoCtrl.finishedTodoList = JSON.parse(content);
+    }
   };
   
   // save lists to local storage
@@ -36,7 +42,7 @@ angular.module('todoGamify').controller('TodoController', function() {
   // insert input into active todo list
   todoCtrl.add = function add() {
     todoCtrl.activeTodoList.push(todoCtrl.input);
-    todoCtrl.save();
+    //todoCtrl.save();
     
     // reset input
     todoCtrl.input = {
@@ -44,12 +50,13 @@ angular.module('todoGamify').controller('TodoController', function() {
     };
   };
   
+  // remove todo from active todo list and insert it into finished todo list
   todoCtrl.finish = function finish(todo) {
     var index = null;
     
-    todoCtrl.finishedTodoList.push(todo);
     index = todoCtrl.activeTodoList.indexOf(todo);
     todoCtrl.activeTodoList.splice(index, 1);
+    todoCtrl.finishedTodoList.push(todo);
   };
   
   todoCtrl.load();
