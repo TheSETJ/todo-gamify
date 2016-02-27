@@ -19,6 +19,19 @@ angular.module('todoGamify').controller('TodoController', function() {
     content = window.localStorage.getItem("todo-gamify-ftl") || [];
     todoCtrl.finishedTodoList = JSON.parse(content);
   };
-
-  todoCtrl.load();  
+  
+  // save lists to local storage
+  todoCtrl.save = function save() {
+    var content = null;
+    
+    // convert and save active todo list locally
+    content = JSON.stringify(todoCtrl.activeTodoList);
+    window.localStorage.setItem("todo-gamify-atl", content);
+    
+    // convert and save finished todo list locally
+    content = JSON.stringify(todoCtrl.finishedTodoList);
+    window.localStorage.setItem("todo-gamify-ftl", content);
+  };
+  
+  todoCtrl.load();
 });
