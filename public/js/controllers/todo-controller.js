@@ -44,5 +44,13 @@ angular.module('todoGamify').controller('TodoController', function() {
     };
   };
   
+  todoCtrl.finish = function finish(todo) {
+    var index = null;
+    
+    todoCtrl.finishedTodoList.push(todo);
+    index = todoCtrl.activeTodoList.indexOf(todo);
+    todoCtrl.activeTodoList.splice(index, 1);
+  };
+  
   todoCtrl.load();
 });
