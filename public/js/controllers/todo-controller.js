@@ -33,5 +33,16 @@ angular.module('todoGamify').controller('TodoController', function() {
     window.localStorage.setItem("todo-gamify-ftl", content);
   };
   
+  // insert input into active todo list
+  todoCtrl.add = function add() {
+    todoCtrl.activeTodoList.push(todoCtrl.input);
+    todoCtrl.save();
+    
+    // reset input
+    todoCtrl.input = {
+      brief: null
+    };
+  };
+  
   todoCtrl.load();
 });
