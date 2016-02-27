@@ -42,7 +42,7 @@ angular.module('todoGamify').controller('TodoController', function() {
   // insert input into active todo list
   todoCtrl.add = function add() {
     todoCtrl.activeTodoList.push(todoCtrl.input);
-    //todoCtrl.save();
+    todoCtrl.save();
     
     // reset input
     todoCtrl.input = {
@@ -57,6 +57,7 @@ angular.module('todoGamify').controller('TodoController', function() {
     index = todoCtrl.activeTodoList.indexOf(todo);
     todoCtrl.activeTodoList.splice(index, 1);
     todoCtrl.finishedTodoList.push(todo);
+    todoCtrl.save();
   };
   
   todoCtrl.load();
