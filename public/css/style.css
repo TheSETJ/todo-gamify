@@ -1,9 +1,9 @@
 .panel-header a:focus {
-  outline: none
+  outline: none;
 }
 
 .panel-body {
-  max-height: 250px;
+  max-height: 225px;
   overflow-y: scroll;
 }
 
@@ -11,4 +11,9 @@
   margin: 2.5px;
   padding: 10px;
   border-radius: 2.5px;
+}
+
+textarea {
+  overflow-y: scroll;
+  resize: none;
 }

@@ -4,7 +4,8 @@ angular.module('todoGamify').controller('TodoController', function() {
   todoCtrl.activeTodoList = [];
   todoCtrl.finishedTodoList = [];
   todoCtrl.input = {
-    brief: null
+    brief: null,
+    detail: null
   };
   
   // load lists from local storage
@@ -46,7 +47,8 @@ angular.module('todoGamify').controller('TodoController', function() {
     
     // reset input
     todoCtrl.input = {
-      brief: null
+      brief: null,
+      detail: null
     };
   };
   

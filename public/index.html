@@ -20,24 +20,28 @@
       
       <div class="container"> <!-- open header -->
         <div class="page-header">
-          <h1>Todo Gamify</h1>
+          <h2>Todo Gamify</h2>
         </div>
       </div> <!-- close header -->
       
       <div ng-controller="TodoController as todoCtrl" class="container"> <!-- open body -->
         
-        <div> <!-- open form -->
+        <div class="clearfix"> <!-- open form -->
           <form ng-submit="todoCtrl.addTodo()">
             
             <div class="form-group">
-              <label for="brief">Brief</label>
-              <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" autocomplete="off" required/>
+              <label for="brief">Brief <small>(required)</small></label>
+              <div class="input-group">
+                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" autocomplete="off" required/>
+                <span class="input-group-btn">
+                  <input class="btn btn-success" type="submit" value="Add"/>
+                </span>
+              </div>
             </div>
             
-            <div class="form-group">
-              <div class="text-right">
-                <input class="btn btn-success" type="submit" value="Add"/>
-              </div>
+            <div class="form group">
+              <label for="detail">Detail</label>
+              <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3"></textarea>
             </div>
             
           </form>
@@ -61,9 +65,10 @@
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
               <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
-                <div class="btn-group pull-right">
-                  <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info btn-xs">Finish</a>
-                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger btn-xs">Cancel</a>
+                <p>{{ todo.detail }}</p>
+                <div class="btn-group btn-group-xs pull-right">
+                  <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
+                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger">Cancel</a>
                 </div>
               </div>
             </div> <!-- close active list -->
@@ -71,7 +76,8 @@
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
               <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
-                <div class="btn-group pull-right">
+                <p>{{ todo.detail }}</p>
+                <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
                 </div>
               </div>
