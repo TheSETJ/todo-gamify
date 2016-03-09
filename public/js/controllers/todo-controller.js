@@ -42,6 +42,8 @@ angular.module('todoGamify').controller('TodoController', function() {
   
   // insert input into active todo list
   todoCtrl.addTodo = function addTodo() {
+    todoCtrl.input.dateCreated = Date.now();
+    
     todoCtrl.activeTodoList.push(todoCtrl.input);
     todoCtrl.save();
     

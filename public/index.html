@@ -64,7 +64,7 @@
           
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
               <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" class="todo-container bg-info text-info clearfix">
-                <span class="h4">{{ todo.brief }}</span>
+                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
@@ -75,7 +75,7 @@
             
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
               <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" class="todo-container bg-info text-info clearfix">
-                <span class="h4">{{ todo.brief }}</span>
+                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
