@@ -50,6 +50,14 @@ angular.module('todoGamify').controller('TodoController', function() {
     };
   };
   
+  todoCtrl.remove = function remove(list, todo) {
+    var index = null;
+    
+    index = list.indexOf(todo);
+    list.splice(index, 1);
+    todoCtrl.save();
+  };
+  
   // remove todo from active todo list and insert it into finished todo list
   todoCtrl.finish = function finish(todo) {
     var index = null;

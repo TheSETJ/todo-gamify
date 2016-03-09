@@ -31,7 +31,7 @@
             
             <div class="form-group">
               <label for="brief">Brief</label>
-              <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" required/>
+              <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" autocomplete="off" required/>
             </div>
             
             <div class="form-group">
@@ -59,14 +59,14 @@
           <div class="panel-body">
           
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
-              <div ng-repeat="todo in todoCtrl.activeTodoList" class="todo-container bg-info text-info clearfix">
+              <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
                 <a ng-click="todoCtrl.finish(todo)" class="btn btn-info btn-xs pull-right">Finish</a>
               </div>
             </div> <!-- close active list -->
             
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
-              <div ng-repeat="todo in todoCtrl.finishedTodoList" class="todo-container bg-info text-info clearfix">
+              <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
               </div>
             </div> <!-- close finished list -->
