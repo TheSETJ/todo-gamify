@@ -27,7 +27,7 @@
       <div ng-controller="TodoController as todoCtrl" class="container"> <!-- open body -->
         
         <div> <!-- open form -->
-          <form ng-submit="todoCtrl.add()">
+          <form ng-submit="todoCtrl.addTodo()">
             
             <div class="form-group">
               <label for="brief">Brief</label>
@@ -61,13 +61,19 @@
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
               <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
-                <a ng-click="todoCtrl.finish(todo)" class="btn btn-info btn-xs pull-right">Finish</a>
+                <div class="btn-group pull-right">
+                  <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info btn-xs">Finish</a>
+                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger btn-xs">Cancel</a>
+                </div>
               </div>
             </div> <!-- close active list -->
             
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
               <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" class="todo-container bg-info text-info clearfix">
                 <span class="h4">{{ todo.brief }}</span>
+                <div class="btn-group pull-right">
+                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
+                </div>
               </div>
             </div> <!-- close finished list -->
             

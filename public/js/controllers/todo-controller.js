@@ -40,7 +40,7 @@ angular.module('todoGamify').controller('TodoController', function() {
   };
   
   // insert input into active todo list
-  todoCtrl.add = function add() {
+  todoCtrl.addTodo = function addTodo() {
     todoCtrl.activeTodoList.push(todoCtrl.input);
     todoCtrl.save();
     
@@ -50,7 +50,8 @@ angular.module('todoGamify').controller('TodoController', function() {
     };
   };
   
-  todoCtrl.remove = function remove(list, todo) {
+  // delete todo from its list
+  todoCtrl.deleteTodo = function deleteTodo(list, todo) {
     var index = null;
     
     index = list.indexOf(todo);
@@ -59,7 +60,7 @@ angular.module('todoGamify').controller('TodoController', function() {
   };
   
   // remove todo from active todo list and insert it into finished todo list
-  todoCtrl.finish = function finish(todo) {
+    todoCtrl.finishTodo = function finishTodo(todo) {
     var index = null;
     
     index = todoCtrl.activeTodoList.indexOf(todo);
