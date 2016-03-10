@@ -3,7 +3,7 @@
 }
 
 .panel-body {
-  max-height: 225px;
+  max-height: 500px;
   overflow-y: scroll;
 }
 
@@ -11,6 +11,21 @@
   margin: 2.5px;
   padding: 10px;
   border-radius: 2.5px;
+}
+
+.high {
+  background-color: #f2dede;
+  border: 1px solid #a94442;
+}
+
+.medium {
+  background-color: #fcf8e3;
+  border: 1px solid #8a6d3b;
+}
+
+.low {
+  background-color: #d9edf7;
+  border: 1px solid #337ab7;
 }
 
 textarea {

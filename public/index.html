@@ -29,19 +29,51 @@
         <div class="clearfix"> <!-- open form -->
           <form ng-submit="todoCtrl.addTodo()">
             
-            <div class="form-group">
+            <div class="form-group"> <!-- open brief -->
               <label for="brief">Brief <small>(required)</small></label>
               <div class="input-group">
-                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" autocomplete="off" required/>
+                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" placeholder="Provide a short description here..." autocomplete="off" required/>
                 <span class="input-group-btn">
                   <input class="btn btn-success" type="submit" value="Add"/>
                 </span>
               </div>
-            </div>
+            </div> <!-- close brief -->
             
-            <div class="form group">
-              <label for="detail">Detail</label>
-              <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3"></textarea>
+            <div class="row">
+              
+              <div class="form-group col-sm-10"> <!-- open detail -->
+                <label for="detail">Detail</label>
+                <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3" placeholder="Write details here; like time, location, etc."></textarea>
+              </div> <!-- close detail -->
+              
+              <div class="form-group col-sm-2"> <!-- open priority -->
+                <label for="priority">Priority</label>
+                <div class="container-fluid" style="border: 1px solid #ccc; border-radius: 4px">
+                  
+                  <div class="radio">
+                    <label> <!-- high priority -->
+                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority"  value="high"/>
+                      High
+                    </label>
+                  </div>
+                  
+                  <div class="radio">
+                    <label> <!-- medium priority -->
+                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority" value="medium"/>
+                      Medium
+                    </label>
+                  </div>
+                  
+                  <div class="radio">
+                    <label> <!-- low peiority -->
+                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority" value="low"/>
+                      Low
+                    </label>
+                  </div>
+                  
+                </div>
+              </div> <!-- close priority -->
+              
             </div>
             
           </form>
@@ -63,23 +95,27 @@
           <div class="panel-body">
           
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
-              <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" class="todo-container bg-info text-info clearfix">
+              <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
+                
                 <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
                   <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger">Cancel</a>
                 </div>
+                
               </div>
             </div> <!-- close active list -->
             
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
-              <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" class="todo-container bg-info text-info clearfix">
+              <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
+                
                 <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
                 </div>
+                
               </div>
             </div> <!-- close finished list -->
             

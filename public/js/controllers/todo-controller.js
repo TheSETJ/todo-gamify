@@ -5,7 +5,8 @@ angular.module('todoGamify').controller('TodoController', function() {
   todoCtrl.finishedTodoList = [];
   todoCtrl.input = {
     brief: null,
-    detail: null
+    detail: null,
+    priority: "low"
   };
   
   // load lists from local storage
@@ -50,7 +51,8 @@ angular.module('todoGamify').controller('TodoController', function() {
     // reset input
     todoCtrl.input = {
       brief: null,
-      detail: null
+      detail: null,
+      priority: "low"
     };
   };
   
@@ -64,7 +66,7 @@ angular.module('todoGamify').controller('TodoController', function() {
   };
   
   // remove todo from active todo list and insert it into finished todo list
-    todoCtrl.finishTodo = function finishTodo(todo) {
+  todoCtrl.finishTodo = function finishTodo(todo) {
     var index = null;
     
     index = todoCtrl.activeTodoList.indexOf(todo);
