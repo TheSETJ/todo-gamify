@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('TodoController', function() {
+angular.module('todoGamify').controller('TodoController', function($http) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
@@ -9,43 +9,35 @@ angular.module('todoGamify').controller('TodoController', function() {
     priority: "low"
   };
   
-  // load lists from local storage
+  // get lists from server
   todoCtrl.load = function load() {
-    var content = null;
-    
-    // convert and load data into active todo list, if data is not null
-    content = window.localStorage.getItem("todo-gamify-atl");
-    
-    if(content != null) {
-      todoCtrl.activeTodoList = JSON.parse(content);
-    }
-    
-    // convert and load data into finished todo list, if data is not null
-    content = window.localStorage.getItem("todo-gamify-ftl");
-    
-    if(content != null) {
-      todoCtrl.finishedTodoList = JSON.parse(content);
-    }
+    // load data into active todo list
+    $http.get('/lists/active')
+    .then(function(chunk) {
+      todoCtrl.activeTodoList = chunk.data;
+    });
+  
+    // load data into finished todo list
+    $http.get('/lists/finished')
+    .then(function(chunk) {
+      todoCtrl.finishedTodoList = chunk.data;
+    });
   };
   
-  // save lists to local storage
+  // post lists to server
   todoCtrl.save = function save() {
-    var content = null;
+    // save active todo list
+    $http.post('/lists/active', todoCtrl.activeTodoList);
     
-    // convert and save active todo list locally
-    content = JSON.stringify(todoCtrl.activeTodoList);
-    window.localStorage.setItem("todo-gamify-atl", content);
-    
-    // convert and save finished todo list locally
-    content = JSON.stringify(todoCtrl.finishedTodoList);
-    window.localStorage.setItem("todo-gamify-ftl", content);
+    // save finished todo list
+    $http.post('/lists/finished', todoCtrl.finishedTodoList);
   };
   
   // insert input into active todo list
   todoCtrl.addTodo = function addTodo() {
     todoCtrl.input.dateCreated = Date.now();
     
-    todoCtrl.activeTodoList.push(todoCtrl.input);
+    todoCtrl.activeTodoList.unshift(todoCtrl.input);
     todoCtrl.save();
     
     // reset input
@@ -71,7 +63,7 @@ angular.module('todoGamify').controller('TodoController', function() {
     
     index = todoCtrl.activeTodoList.indexOf(todo);
     todoCtrl.activeTodoList.splice(index, 1);
-    todoCtrl.finishedTodoList.push(todo);
+    todoCtrl.finishedTodoList.unshift(todo);
     todoCtrl.save();
   };
   
