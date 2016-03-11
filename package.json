@@ -1,0 +1,26 @@
+{
+  "name": "todo-gamify",
+  "version": "1.0.0",
+  "description": "A simple and gamifid task management application",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheSETJ/todo-gamify.git"
+  },
+  "author": {
+    "name": "Seyed Ehsan Taheri Javid",
+    "email": "ehsantaheri25@yahoo.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheSETJ/todo-gamify/issues"
+  },
+  "homepage": "https://github.com/TheSETJ/todo-gamify#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
