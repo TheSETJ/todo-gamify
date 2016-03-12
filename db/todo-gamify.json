@@ -1,0 +1,24 @@
+{
+  "active": [
+    {
+      "brief": "c",
+      "detail": null,
+      "priority": "high",
+      "dateCreated": 1457763501719
+    },
+    {
+      "brief": "a",
+      "detail": null,
+      "priority": "low",
+      "dateCreated": 1457763356090
+    }
+  ],
+  "finished": [
+    {
+      "brief": "b",
+      "detail": null,
+      "priority": "low",
+      "dateCreated": 1457763499216
+    }
+  ]
+}

@@ -11,26 +11,30 @@ angular.module('todoGamify').controller('TodoController', function($http) {
   
   // get lists from server
   todoCtrl.load = function load() {
-    // load data into active todo list
-    $http.get('/lists/active')
+    // load data into todo lists
+    $http.get('/lists')
     .then(function(chunk) {
-      todoCtrl.activeTodoList = chunk.data;
-    });
-  
-    // load data into finished todo list
-    $http.get('/lists/finished')
-    .then(function(chunk) {
-      todoCtrl.finishedTodoList = chunk.data;
+      console.log(chunk.data.active);
+      todoCtrl.activeTodoList = chunk.data.active;
+      todoCtrl.finishedTodoList = chunk.data.finished;
+    })
+    .finally(function() {
+      console.log("ok");
     });
   };
   
   // post lists to server
   todoCtrl.save = function save() {
-    // save active todo list
-    $http.post('/lists/active', todoCtrl.activeTodoList);
+    var temp = {
+      active: todoCtrl.activeTodoList,
+      finished: todoCtrl.finishedTodoList
+    };
     
-    // save finished todo list
-    $http.post('/lists/finished', todoCtrl.finishedTodoList);
+    // save todo lists
+    $http.post('/lists', temp)
+    .finally(function() {
+      console.log("ok");
+    });
   };
   
   // insert input into active todo list
