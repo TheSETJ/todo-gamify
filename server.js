@@ -31,6 +31,8 @@ app.post('/lists', function(request, response) {
   fs.createWriteStream('./db/todo-gamify.json').write(temp, function(error) {
     if(error) {
       response.send(error);
+    } else {
+      response.send("success");
     }
   });
 });

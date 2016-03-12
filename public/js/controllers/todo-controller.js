@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('TodoController', function($http) {
+angular.module('todoGamify').controller('TodoController', ['$http', function($http) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
@@ -11,15 +11,21 @@ angular.module('todoGamify').controller('TodoController', function($http) {
   
   // get lists from server
   todoCtrl.load = function load() {
+    $('.app-box').hide();
+    $('.loader-box').show();
+    
     // load data into todo lists
     $http.get('/lists')
     .then(function(chunk) {
       console.log(chunk.data.active);
       todoCtrl.activeTodoList = chunk.data.active;
       todoCtrl.finishedTodoList = chunk.data.finished;
+    }, function(error) {
+      alert(error.message);
     })
     .finally(function() {
-      console.log("ok");
+      $('.loader-box').hide();
+      $('.app-box').fadeIn(1000);
     });
   };
   
@@ -30,10 +36,17 @@ angular.module('todoGamify').controller('TodoController', function($http) {
       finished: todoCtrl.finishedTodoList
     };
     
+    $('.loader-box').show();
+    
     // save todo lists
     $http.post('/lists', temp)
+    .then(function(response) {
+      console.log(response);
+    }, function(error) {
+      console.log(error);
+    })
     .finally(function() {
-      console.log("ok");
+      $('.loader-box').hide();
     });
   };
   
@@ -72,4 +85,4 @@ angular.module('todoGamify').controller('TodoController', function($http) {
   };
   
   todoCtrl.load();
-});
+}]);
