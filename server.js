@@ -3,14 +3,28 @@
 var express = require('express');
 var fs = require('fs');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 // =========================
-// = middlewares ===========
+// = app setup =============
 
 var app = express();
 
+mongoose.connect('mongodb://user:pass@jello.modulusmongo.net:27017/ij4ytUne');
+
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
+
+// =========================
+// = data model ============
+
+var Todo = mongoose.model('Todo', {
+  brief: String,
+  detail: String,
+  priority: String,
+  dateCreated: Date,
+  isFinished: Boolean
+});
 
 // =========================
 // = api routes ============
