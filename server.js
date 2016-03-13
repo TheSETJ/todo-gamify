@@ -1,7 +1,6 @@
 // = requirements ==========
 
 var express = require('express');
-var fs = require('fs');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
@@ -29,24 +28,54 @@ var Todo = mongoose.model('Todo', {
 // =========================
 // = api routes ============
 
-app.get('/lists', function(request, response) {
-  fs.readFile('./db/todo-gamify.json', function(error, chunk) {
+// retrieve all todos from database and send them to client
+app.get('/api/todos', function(request, response) {
+  Todo.find(function(error, todos) {
     if(error) {
       response.send(error);
     } else {
-      response.send(chunk);
+      console.log(todos);
+      response.json(todos);
     }
   });
 });
 
-app.post('/lists', function(request, response) {
-  var temp = JSON.stringify(request.body, null, 2);
-  
-  fs.createWriteStream('./db/todo-gamify.json').write(temp, function(error) {
+// create new instance of todo in database using gotten object from client
+app.post('/api/todos', function(request, response) {
+  Todo.create(request.body, function(error, todo) {
     if(error) {
       response.send(error);
     } else {
-      response.send("success");
+      console.log(todo);
+      response.json(todo);
+    }
+  });
+});
+
+// update todo in database
+app.put('/api/todos/:id', function(request, response) {
+  Todo.findOneAndUpdate({
+    _id: request.params.id
+  }, {
+    isFinished: true
+  }, function(error, todo) {
+    if(error) {
+      response.send(error);
+    } else {
+      response.json(todo);
+    }
+  });
+});
+
+// delete todo from database using passed id from client
+app.delete('/api/todos/:id', function(request, response) {
+  Todo.remove({
+    _id: request.params.id
+  }, function(error, todo) {
+    if(error) {
+      response.send(error);
+    } else {
+      response.json(todo);
     }
   });
 });
