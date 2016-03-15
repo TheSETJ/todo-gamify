@@ -23,6 +23,15 @@
   border: 1px solid #a94442;
 }
 
+.error-box {
+  background-color: white;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: none;
+}
+
 .medium {
   background-color: #fcf8e3;
   border: 1px solid #8a6d3b;

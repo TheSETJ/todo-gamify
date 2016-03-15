@@ -31,7 +31,8 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         isFinished: false,
       };
     }, function(error) {
-      alert(error.stack);
+      alert(error.status + ": " + error.statusText);
+      console.log(error);
     })
     .finally(function() {
       $('.loader-box').hide();
@@ -50,7 +51,8 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       // on server success delete todo from list too
       list.splice(index, 1);
     }, function(error) {
-      alert(error.stack);
+      alert(error.status + ": " + error.statusText);
+      console.log(error);
     })
     .finally(function() {
       $('.loader-box').hide();
@@ -72,7 +74,8 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       todoCtrl.activeTodoList.splice(index, 1);
       todoCtrl.finishedTodoList.unshift(response.data);
     }, function(error) {
-      alert(error.stack);
+      alert(error.status + ": " + error.statusText);
+      console.log(error);
     })
     .finally(function() {
       $('.loader-box').hide();
@@ -98,7 +101,8 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         : todoCtrl.activeTodoList.unshift(item);
       }
     }, function(error) {
-      alert(error.stack);
+      alert(error.status + ": " + error.statusText);
+      console.log(error);
     })
     .finally(function() {
       $('.loader-box').hide();

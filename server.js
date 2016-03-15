@@ -32,6 +32,7 @@ var Todo = mongoose.model('Todo', {
 app.get('/api/todos', function(request, response) {
   Todo.find(function(error, todos) {
     if(error) {
+      console.log(error);
       response.send(error);
     } else {
       console.log(todos);
@@ -44,6 +45,7 @@ app.get('/api/todos', function(request, response) {
 app.post('/api/todos', function(request, response) {
   Todo.create(request.body, function(error, todo) {
     if(error) {
+      console.log(error);
       response.send(error);
     } else {
       console.log(todo);
@@ -60,8 +62,10 @@ app.put('/api/todos/:id', function(request, response) {
     isFinished: true
   }, function(error, todo) {
     if(error) {
+      console.log(error);
       response.send(error);
     } else {
+      console.log(todo);
       response.json(todo);
     }
   });
@@ -73,8 +77,10 @@ app.delete('/api/todos/:id', function(request, response) {
     _id: request.params.id
   }, function(error, todo) {
     if(error) {
+      console.log(error);
       response.send(error);
     } else {
+      console.log(todo);
       response.json(todo);
     }
   });
