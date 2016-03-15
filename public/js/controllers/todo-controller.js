@@ -31,6 +31,11 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         isFinished: false,
       };
     }, function(error) {
+      // insure error status text is not empty
+      if(!error.statusText) {
+        error.statusText = "Unknown Error. Please Check Your Connection.";
+      }
+      
       alert(error.status + ": " + error.statusText);
       console.log(error);
     })
@@ -51,6 +56,11 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       // on server success delete todo from list too
       list.splice(index, 1);
     }, function(error) {
+      // insure error status text is not empty
+      if(!error.statusText) {
+        error.statusText = "Unknown Error. Please Check Your Connection.";
+      }
+      
       alert(error.status + ": " + error.statusText);
       console.log(error);
     })
@@ -74,6 +84,11 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       todoCtrl.activeTodoList.splice(index, 1);
       todoCtrl.finishedTodoList.unshift(response.data);
     }, function(error) {
+      // insure error status text is not empty
+      if(!error.statusText) {
+        error.statusText = "Unknown Error. Please Check Your Connection.";
+      }
+      
       alert(error.status + ": " + error.statusText);
       console.log(error);
     })
@@ -101,6 +116,11 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         : todoCtrl.activeTodoList.unshift(item);
       }
     }, function(error) {
+      // insure error status text is not empty
+      if(!error.statusText) {
+        error.statusText = "Unknown Error. Please Check Your Connection.";
+      }
+      
       alert(error.status + ": " + error.statusText);
       console.log(error);
     })
