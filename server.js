@@ -21,7 +21,7 @@ var Todo = mongoose.model('Todo', {
   brief: String,
   detail: String,
   priority: String,
-  dateCreated: Date,
+  creation: Date,
   isFinished: Boolean
 });
 

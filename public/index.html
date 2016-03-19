@@ -16,6 +16,7 @@
     <script src="js/controllers/main-controller.js"></script>
     <script src="js/controllers/todo-controller.js"></script>
     <script src="js/controllers/panel-controller.js"></script>
+    <script src="js/controllers/form-controller.js"></script>
   </head>
   <body ng-app="todoGamify">
     <div class="loader-box">
@@ -34,74 +35,60 @@
     
     <div class="container error-box"></div>
     
-    <div ng-controller="MainController" class="app-box container-fluid"> <!-- open global -->
+    <div ng-controller="MainController" class="app-box container"> <!-- open global -->
       
-      <div class="container"> <!-- open header -->
-        <div class="page-header">
-          <h2>Todo Gamify</h2>
+      <nav class="navbar navbar-default"> <!-- open header -->
+        <div class="navbar-brand">
+          Todo Gamify
         </div>
-      </div> <!-- close header -->
+      </nav> <!-- close header -->
       
-      <div ng-controller="TodoController as todoCtrl" class="container"> <!-- open body -->
+      <div ng-controller="TodoController as todoCtrl" class=""> <!-- open body -->
         
-        <div class="clearfix"> <!-- open form -->
+        <div ng-controller="FormController as formCtrl" class="well clearfix" id="form-wrapper"> <!-- open form -->
           <form ng-submit="todoCtrl.addTodo()">
             
-            <div class="form-group"> <!-- open brief -->
-              <label for="brief">Brief <small>(required)</small></label>
+            <div class="form-group" id="brief-wrapper"> <!-- open brief -->
+              <label class="sr-only" for="brief">Brief <small>(required)</small></label>
               <div class="input-group">
-                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" placeholder="Provide a short description here..." autocomplete="off" required/>
+                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" placeholder="Write a brief here..." autocomplete="off" required/>
                 <span class="input-group-btn">
                   <input class="btn btn-success" type="submit" value="Add"/>
                 </span>
               </div>
             </div> <!-- close brief -->
             
-            <div class="row">
+            <div class="form-group" id="detail-wrapper"> <!-- open detail -->
+              <label class="sr-only" for="detail">Detail</label>
+              <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3" placeholder="Write details here..."></textarea>
+            </div> <!-- close detail -->
               
-              <div class="form-group col-sm-10"> <!-- open detail -->
-                <label for="detail">Detail</label>
-                <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3" placeholder="Write details here; like time, location, etc."></textarea>
-              </div> <!-- close detail -->
+            <div class="form-group" id="priority-wrapper"> <!-- open priority -->
+              <label class="sr-only">Priority</label>
+              <div class="btn-group btn-group-justified">
+                
+                <label class="radio-inline btn btn-primary"> <!-- high priority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="high"  value="high"/>
+                  High Priority
+                </label>
               
-              <div class="form-group col-sm-2"> <!-- open priority -->
-                <label for="priority">Priority</label>
-                <div class="container-fluid priority-container">
-                  
-                  <div class="radio">
-                    <label> <!-- high priority -->
-                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority"  value="high"/>
-                      High
-                    </label>
-                  </div>
-                  
-                  <div class="radio">
-                    <label> <!-- medium priority -->
-                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority" value="medium"/>
-                      Medium
-                    </label>
-                  </div>
-                  
-                  <div class="radio">
-                    <label> <!-- low peiority -->
-                      <input ng-model="todoCtrl.input.priority" type="radio" name="priority" value="low"/>
-                      Low
-                    </label>
-                  </div>
-                  
-                </div>
-              </div> <!-- close priority -->
+                <label class="radio-inline btn btn-primary"> <!-- medium priority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="medium" value="medium"/>
+                  Medium Priority
+                </label>
               
-            </div>
+                <label class="radio-inline btn btn-primary active"> <!-- low peiority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="low" value="low" checked/>
+                  Low Priority
+                </label>
+                
+              </div>
+            </div> <!-- close priority -->
             
           </form>
         </div> <!-- close form -->
         
-        <div>
-          <hr/>
-        </div>
-        
-        <div ng-controller="PanelController as panelCtrl" class="panel panel-default"> <!-- open lists -->
+        <div ng-controller="PanelController as panelCtrl" class="panel panel-default" id="panel-wrapper"> <!-- open lists -->
         
           <div class="panel-header">
             <ul class="nav nav-tabs nav-justified">
@@ -115,7 +102,7 @@
             <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
               <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
                 
-                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
+                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
@@ -128,7 +115,7 @@
             <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
               <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
                 
-                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.dateCreated | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
+                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
                 <p>{{ todo.detail }}</p>
                 <div class="btn-group btn-group-xs pull-right">
                   <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>

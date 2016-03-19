@@ -7,7 +7,7 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
     brief: null,
     detail: null,
     priority: "low",
-    dateCreated: null,
+    creation: null,
     isFinished: false
   };
   
@@ -15,7 +15,7 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
   todoCtrl.addTodo = function addTodo() {
     $('.loader-box').show();
     
-    todoCtrl.input.dateCreated = Date.now();
+    todoCtrl.input.creation = Date.now();
     
     // send new todo to server
     $http.post('/api/todos', todoCtrl.input)
@@ -27,7 +27,7 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         brief: null,
         detail: null,
         priority: "low",
-        dateCreated: null,
+        creation: null,
         isFinished: false,
       };
     }, function(error) {
