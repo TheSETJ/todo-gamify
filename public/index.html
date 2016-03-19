@@ -17,6 +17,7 @@
     <script src="js/controllers/todo-controller.js"></script>
     <script src="js/controllers/panel-controller.js"></script>
     <script src="js/controllers/form-controller.js"></script>
+    <script src="js/services/shared-properties.js"></script>
   </head>
   <body ng-app="todoGamify">
     <div class="loader-box">
@@ -43,7 +44,7 @@
         </div>
       </nav> <!-- close header -->
       
-      <div ng-controller="TodoController as todoCtrl" class=""> <!-- open body -->
+      <div ng-controller="TodoController as todoCtrl"> <!-- open body -->
         
         <div ng-controller="FormController as formCtrl" class="well clearfix" id="form-wrapper"> <!-- open form -->
           <form ng-submit="todoCtrl.addTodo()">
@@ -67,18 +68,18 @@
               <label class="sr-only">Priority</label>
               <div class="btn-group btn-group-justified">
                 
-                <label class="radio-inline btn btn-primary"> <!-- high priority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="high"  value="high"/>
+                <label ng-class="{ active: formCtrl.isSelected('h') }" ng-click="formCtrl.selectPriority('h')" class="radio-inline btn btn-primary"> <!-- high priority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="h"  value="high"/>
                   High Priority
                 </label>
               
-                <label class="radio-inline btn btn-primary"> <!-- medium priority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="medium" value="medium"/>
+                <label ng-class="{ active: formCtrl.isSelected('m') }" ng-click="formCtrl.selectPriority('m')" class="radio-inline btn btn-primary"> <!-- medium priority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="m" value="medium"/>
                   Medium Priority
                 </label>
               
-                <label class="radio-inline btn btn-primary active"> <!-- low peiority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="low" value="low" checked/>
+                <label ng-class="{ active: formCtrl.isSelected('l') }" ng-click="formCtrl.selectPriority('l')" class="radio-inline btn btn-primary"> <!-- low peiority -->
+                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="l" value="low" checked/>
                   Low Priority
                 </label>
                 

@@ -1,9 +1,16 @@
-angular.module('todoGamify').controller('FormController', function() {
+angular.module('todoGamify').controller('FormController', function(sharedProperties) {
   var formCtrl = this;
   
-  $('#priority-wrapper').find('label').on('click', function() {
-    $('#priority-wrapper').find('label').removeClass('active');
-    $(this).addClass('active');
-    $(this).css('checked', 'checked');
-  });
+  // select first tab as default
+  sharedProperties.setPriority('l');
+  
+  // select given tab
+  formCtrl.selectPriority = function selectTab(priorityId) {
+    sharedProperties.setPriority(priorityId);
+  };
+  
+  // check whether given priority is selected or not
+  formCtrl.isSelected = function isSelected(priorityId) {
+    return sharedProperties.getPriority() === priorityId;
+  };
 });

@@ -10,3 +10,4 @@ This version has following features:
  * Add simple todo
  * Finish simple todo
  * Active and Finished todo lists
+

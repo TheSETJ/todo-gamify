@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('TodoController', ['$http', function($http) {
+angular.module('todoGamify').controller('TodoController', function($http, sharedProperties) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
@@ -30,6 +30,10 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
         creation: null,
         isFinished: false,
       };
+      
+      // select active list tab and low priority
+      sharedProperties.setTab(1);
+      sharedProperties.setPriority('l');
     }, function(error) {
       // insure error status text is not empty
       if(!error.statusText) {
@@ -83,6 +87,9 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       // on server success move todo from active todo list into finished todo list
       todoCtrl.activeTodoList.splice(index, 1);
       todoCtrl.finishedTodoList.unshift(response.data);
+      
+      // switch to finished list tab
+      sharedProperties.setTab(2);
     }, function(error) {
       // insure error status text is not empty
       if(!error.statusText) {
@@ -129,4 +136,4 @@ angular.module('todoGamify').controller('TodoController', ['$http', function($ht
       $('.app-box').fadeIn(1000);
     });
   })();
-}]);
+});
