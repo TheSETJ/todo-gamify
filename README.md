@@ -11,3 +11,11 @@ This version has following features:
  * Finish simple todo
  * Active and Finished todo lists
 
+### v2.0.0
+
+This version has following features:
+ * Delete/Cancel todo
+ * Backend and RESTful API for http requests
+ * Data model and database
+ * More complex todo with detail and priority level
+ * Improved UI
