@@ -89,7 +89,7 @@ app.delete('/api/todos/:id', function(request, response) {
 // =========================
 // = server config =========
 
-var port = process.env.PORT || 8081;
+var port = process.env.PORT || 8080;
 app.listen(port, function() {
   console.log("Running Express on port " + port);
 });
