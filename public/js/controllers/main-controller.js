@@ -35,5 +35,10 @@ angular.module('todoGamify').controller('MainController', function($scope, share
     main.loggedIn = false;
   } else {
     main.loggedIn = true;
+    
+    // get user id from playlyfe and set it
+    client.api('/player', 'GET', function(data) {
+      sharedProperties.setUsername(data.id);
+    })
   }
 });

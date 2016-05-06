@@ -19,6 +19,7 @@
     <script src="js/controllers/todo-controller.js"></script>
     <script src="js/controllers/panel-controller.js"></script>
     <script src="js/controllers/form-controller.js"></script>
+    <script src="js/controllers/profile-controller.js"></script>
     <script src="js/services/shared-properties.js"></script>
   </head>
   <body ng-app="todoGamify">
@@ -46,7 +47,7 @@
       <nav class="navbar navbar-default"> <!-- open header -->
         <div class="navbar-header">
           
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar-collapse" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -59,7 +60,7 @@
           
         </div>
         
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" id="bs-navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li ng-hide="main.loggedIn"><a ng-click="main.login()" href="">Login</a></li>
             <li ng-show="main.loggedIn"><a ng-click="main.logout()" href="">Logout</a></li>
@@ -76,94 +77,114 @@
         </div>
       </div>
       
-      <div ng-show="main.loggedIn" ng-controller="TodoController as todoCtrl"> <!-- open body -->
-        
-        <div ng-controller="FormController as formCtrl" class="well clearfix" id="form-wrapper"> <!-- open form -->
-          <form ng-submit="todoCtrl.addTodo()">
-            
-            <div class="form-group" id="brief-wrapper"> <!-- open brief -->
-              <label class="sr-only" for="brief">Brief <small>(required)</small></label>
-              <div class="input-group">
-                <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" placeholder="Write a brief here..." autocomplete="off" required/>
-                <span class="input-group-btn">
-                  <input class="btn btn-success" type="submit" value="Add"/>
-                </span>
-              </div>
-            </div> <!-- close brief -->
-            
-            <div class="form-group" id="detail-wrapper"> <!-- open detail -->
-              <label class="sr-only" for="detail">Detail</label>
-              <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3" placeholder="Write details here..."></textarea>
-            </div> <!-- close detail -->
-              
-            <div class="form-group" id="priority-wrapper"> <!-- open priority -->
-              <label class="sr-only">Priority</label>
-              <div class="btn-group btn-group-justified">
-                
-                <label ng-class="{ active: formCtrl.isSelected('h') }" ng-click="formCtrl.selectPriority('h')" class="radio-inline btn btn-primary"> <!-- high priority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="h"  value="high"/>
-                  High Priority
-                </label>
-              
-                <label ng-class="{ active: formCtrl.isSelected('m') }" ng-click="formCtrl.selectPriority('m')" class="radio-inline btn btn-primary"> <!-- medium priority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="m" value="medium"/>
-                  Medium Priority
-                </label>
-              
-                <label ng-class="{ active: formCtrl.isSelected('l') }" ng-click="formCtrl.selectPriority('l')" class="radio-inline btn btn-primary"> <!-- low peiority -->
-                  <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="l" value="low" checked/>
-                  Low Priority
-                </label>
-                
-              </div>
-            </div> <!-- close priority -->
-            
-          </form>
-        </div> <!-- close form -->
-        
-        <div ng-controller="PanelController as panelCtrl" class="panel panel-default" id="panel-wrapper"> <!-- open lists -->
-        
-          <div class="panel-header">
-            <ul class="nav nav-tabs nav-justified">
-              <li ng-hide="panelCtrl.isSelected(1)" ng-class="{ active: panelCtrl.isSelected(1) }"><a href ng-click="panelCtrl.selectTab(1)">Active</a></li>
-              <li ng-hide="panelCtrl.isSelected(2)" ng-class="{ active: panelCtrl.isSelected(2) }"><a href ng-click="panelCtrl.selectTab(2)">Finished</a></li>
-            </ul>
+      <div ng-show="main.loggedIn" class="row"> <!-- open container -->
+      
+        <div class="col-sm-3" ng-controller="ProfileController as profileCtrl"> <!-- open profile -->
+          <div class="well">
+            <img src="{{ profileCtrl.user.avatar }}" style="height: 25px; width: 25px;"/>
+            <span>{{ profileCtrl.user.id }}</span>
+            <hr/>
+            <p>
+            <code>Level:</code> <kbd>{{ profileCtrl.user.level }}</kbd> <br/>
+            <code>Point:</code> <kbd>{{ profileCtrl.user.points }}</kbd> DO+
+            </p>
           </div>
+        </div> <!-- close profile -->
+        
+        <div ng-controller="TodoController as todoCtrl" class="col-sm-9"> <!-- open body -->
+        
+          <div ng-controller="FormController as formCtrl" class="well clearfix" id="form-wrapper"> <!-- open form -->
+            <form ng-submit="todoCtrl.addTodo()">
+              
+              <div class="form-group" id="brief-wrapper"> <!-- open brief -->
+                <label class="sr-only" for="brief">Brief <small>(required)</small></label>
+                <div class="input-group">
+                  <input ng-model="todoCtrl.input.brief" class="form-control" type="text" name="brief" placeholder="Write a brief here..." autocomplete="off" required/>
+                  <span class="input-group-btn">
+                    <input class="btn btn-success" type="submit" value="Add"/>
+                  </span>
+                </div>
+              </div> <!-- close brief -->
+              
+              <div class="form-group" id="detail-wrapper"> <!-- open detail -->
+                <label class="sr-only" for="detail">Detail</label>
+                <textarea ng-model="todoCtrl.input.detail" class="form-control" name="detail" rows="3" placeholder="Write details here..."></textarea>
+              </div> <!-- close detail -->
+                
+              <div class="form-group" id="priority-wrapper"> <!-- open priority -->
+                <label class="sr-only">Priority</label>
+                <div class="btn-group btn-group-justified">
+                  
+                  <label ng-class="{ active: formCtrl.isSelected('h') }" ng-click="formCtrl.selectPriority('h')" class="radio-inline btn btn-primary"> <!-- high priority -->
+                    <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="h"  value="high"/>
+                    High Priority
+                  </label>
+                
+                  <label ng-class="{ active: formCtrl.isSelected('m') }" ng-click="formCtrl.selectPriority('m')" class="radio-inline btn btn-primary"> <!-- medium priority -->
+                    <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="m" value="medium"/>
+                    Medium Priority
+                  </label>
+                
+                  <label ng-class="{ active: formCtrl.isSelected('l') }" ng-click="formCtrl.selectPriority('l')" class="radio-inline btn btn-primary"> <!-- low peiority -->
+                    <input class="sr-only" ng-model="todoCtrl.input.priority" type="radio" name="priority" id="l" value="low" checked/>
+                    Low Priority
+                  </label>
+                  
+                </div>
+              </div> <!-- close priority -->
+              
+            </form>
+          </div> <!-- close form -->
           
-          <div class="panel-body">
+          <div ng-controller="PanelController as panelCtrl" class="panel panel-default" id="panel-wrapper"> <!-- open lists -->
+          
+            <div class="panel-header">
+              <ul class="nav nav-tabs nav-justified">
+                <li ng-hide="panelCtrl.isSelected(1)" ng-class="{ active: panelCtrl.isSelected(1) }"><a href ng-click="panelCtrl.selectTab(1)">Active</a></li>
+                <li ng-hide="panelCtrl.isSelected(2)" ng-class="{ active: panelCtrl.isSelected(2) }"><a href ng-click="panelCtrl.selectTab(2)">Finished</a></li>
+              </ul>
+            </div>
             
-            <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
-              <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
-                
-                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
-                <p>{{ todo.detail }}</p>
-                <div class="btn-group btn-group-xs pull-right">
-                  <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
-                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger">Cancel</a>
+            <div class="panel-body">
+              
+              <div ng-show="panelCtrl.isSelected(1)"> <!-- open active list -->
+                <div ng-repeat="todo in todoCtrl.activeTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
+                  
+                  <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
+                  <p>{{ todo.detail }}</p>
+                  <div class="btn-group btn-group-xs pull-right">
+                    <a ng-click="todoCtrl.finishTodo(todo)" class="btn btn-info">Finish</a>
+                    <a ng-click="todoCtrl.deleteTodo(todoCtrl.activeTodoList, todo)" class="btn btn-danger">Cancel</a>
+                  </div>
+                  
                 </div>
-                
-              </div>
-            </div> <!-- close active list -->
-            
-            <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
-              <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
-                
-                <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
-                <p>{{ todo.detail }}</p>
-                <div class="btn-group btn-group-xs pull-right">
-                  <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
+              </div> <!-- close active list -->
+              
+              <div ng-show="panelCtrl.isSelected(2)"> <!-- open finished list -->
+                <div ng-repeat="todo in todoCtrl.finishedTodoList track by $index" ng-class="todo.priority" class="todo-container clearfix">
+                  
+                  <span class="h4">{{ todo.brief }} <small class="pull-right">{{ todo.creation | date: 'MMM d, yyyy @ hh:mm:ss' }}</small></span>
+                  <p>{{ todo.detail }}</p>
+                  <div class="btn-group btn-group-xs pull-right">
+                    <a ng-click="todoCtrl.deleteTodo(todoCtrl.finishedTodoList, todo)" class="btn btn-warning btn-xs">Delete</a>
+                  </div>
+                  
                 </div>
-                
-              </div>
-            </div> <!-- close finished list -->
-            
-          </div>
-        
-        </div> <!-- close lists -->
-        
-        <a href="#top"><span class="glyphicon glyphicon-chevron-up"></span></a>
-        
-      </div> <!-- close body -->
+              </div> <!-- close finished list -->
+              
+            </div>
+          
+          </div> <!-- close lists -->
+          
+        </div> <!-- close body -->
+      
+        <div class="text-center"> <!-- open top -->
+          <a class="btn btn-default" href="#top"><span class="glyphicon glyphicon-chevron-up"></span> <br/>
+          TOP
+          </a>
+        </div> <!-- close top -->
+      
+      </div> <!-- close container -->
       
     </div> <!-- close global -->
   </body>
