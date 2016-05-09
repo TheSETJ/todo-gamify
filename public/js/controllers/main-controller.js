@@ -1,10 +1,10 @@
-angular.module('todoGamify').controller('MainController', function($scope, sharedProperties) {
+angular.module('todoGamify').controller('MainController', function($scope, sharedProperties, sharedFunctions) {
   var main = this;
   
   main.loggedIn = false;
   main.token;
   
-  // helper function that act safly as $apply
+  // helper function that act safely as $apply
   $scope.safeApply = function(fn) {
     var phase = this.$root.$$phase;
     if(phase == '$apply' || phase == '$digest') {
@@ -30,15 +30,16 @@ angular.module('todoGamify').controller('MainController', function($scope, share
     });
   };
   
-  // check if player is logged in or net
+  // check if player is logged in or not
   if(Playlyfe.getStatus().msg != 'authenticated') {
     main.loggedIn = false;
   } else {
     main.loggedIn = true;
     
-    // get user id from playlyfe and set it
+    // get user data from playlyfe then init the app
     client.api('/player', 'GET', function(data) {
-      sharedProperties.setUsername(data.id);
-    })
+      sharedProperties.setUser(data);
+      sharedFunctions.handleProfile();
+    });
   }
 });

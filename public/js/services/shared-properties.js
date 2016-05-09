@@ -1,7 +1,7 @@
 angular.module('todoGamify').service('sharedProperties', function() {
   var currentTab;
   var currentPriority;
-  var username;
+  var user;
   
   return {
     getTab: function getTab() {
@@ -16,11 +16,11 @@ angular.module('todoGamify').service('sharedProperties', function() {
     setPriority: function setPriority(priorityId) {
       currentPriority = priorityId;
     },
-    getUsername: function getUsername() {
-      return username;
+    getUser: function getUser() {
+      return user;
     },
-    setUsername: function setUsername(name) {
-      username = name;
+    setUser: function setUser(userData) {
+      user = userData;
     }
   };
 });

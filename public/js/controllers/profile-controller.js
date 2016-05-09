@@ -1,38 +1,43 @@
-angular.module('todoGamify').controller('ProfileController', function(sharedProperties) {
+angular.module('todoGamify').controller('ProfileController', function($scope, sharedProperties, sharedFunctions) {
   var profileCtrl = this;
   
   profileCtrl.user = {
-    id: '',
+    name: '',
     avatar: '',
-    points: null,
+    points: '',
+    maxPoint: '',
     level: '',
-    proceed: null
+    progress: ''
   };
   
-  function initProfile() {
-    var points;
-    
-    profileCtrl.user.id = sharedProperties.getUsername();
-    
-    client.api('/assets/players/' + profileCtrl.user.id, 'GET', function(data) {
-      profileCtrl.user.avatar = data;
-    });
-    
-    client.api('/player', 'GET', function(data) {
-      profileCtrl.user.points = points = data.scores[0].value;
-      profileCtrl.user.level = data.scores[1].value.name;
-      
-      if(points <= 100) {
-        profileCtrl.user.proceed = points.toFixed(2);
-      } else if(points <= 250) {
-        profileCtrl.user.proceed = ( ( points - 100 ) * 100 / 150 ).toFixed(2);
-      } else if(points <= 500) {
-        profileCtrl.user.proceed = ( ( points - 250 ) * 100 / 250 ).toFixed(2);
-      } else {
-        profileCtrl.user.proceed = '100';
+  // helper function that act safely as $apply
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
       }
+    } else {
+      this.$apply(fn);
+    }
+  };
+  
+  // initialize profile with user data
+  function init() {
+    var userData = sharedProperties.getUser();
+    var access_token = client.getAccessToken();
+    
+    $scope.safeApply(function() {
+      profileCtrl.user.name = userData.alias;
+      profileCtrl.user.points = userData.scores[0].value;
+      profileCtrl.user.level = userData.scores[1].value.name;
+      profileCtrl.user.avatar = 'https://api.playlyfe.com/v1/assets/players/' + userData.id + '?size=medium&access_token=' + access_token;
+      profileCtrl.user.maxPoint = userData.scores[1].meta.high;
+      profileCtrl.user.progress = (( profileCtrl.user.points - userData.scores[1].meta.low ) / userData.scores[1].meta.high * 100);
     });
+    
+    console.log(profileCtrl.user);
   }
   
-  initProfile();
+  sharedFunctions.setProfileHandler(init);
 });

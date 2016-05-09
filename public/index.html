@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/loading.css"/>
+    <link rel="stylesheet" href="css/tooltip.css"/>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
@@ -21,6 +22,7 @@
     <script src="js/controllers/form-controller.js"></script>
     <script src="js/controllers/profile-controller.js"></script>
     <script src="js/services/shared-properties.js"></script>
+    <script src="js/services/shared-functions.js"></script>
   </head>
   <body ng-app="todoGamify">
     
@@ -81,13 +83,31 @@
       
         <div class="col-sm-3" ng-controller="ProfileController as profileCtrl"> <!-- open profile -->
           <div class="well">
-            <img src="{{ profileCtrl.user.avatar }}" style="height: 25px; width: 25px;"/>
-            <span>{{ profileCtrl.user.id }}</span>
+            
+            <div class="media">
+              <div class="media-left">
+                <a href="#">
+                  <img class="media-object" ng-src="{{ profileCtrl.user.avatar }}" alt="avatar">
+                </a>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{ profileCtrl.user.name }}</h4>
+                <kbd>{{ profileCtrl.user.level }}</kbd>
+              </div>
+            </div>
+            
             <hr/>
+            
             <p>
-            <code>Level:</code> <kbd>{{ profileCtrl.user.level }}</kbd> <br/>
-            <code>Point:</code> <kbd>{{ profileCtrl.user.points }}</kbd> DO+
+            <code>Point:</code> <kbd>{{ profileCtrl.user.points }} / {{ profileCtrl.user.maxPoint }}</kbd> DO+
             </p>
+            
+            <div class="progress">
+              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{{ profileCtrl.user.progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 1%; width: {{ profileCtrl.user.progress }}%;">
+                <small class="sr-only">{{ profileCtrl.user.progress }}%</small>
+              </div>
+            </div>
+            
           </div>
         </div> <!-- close profile -->
         
