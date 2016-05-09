@@ -2,12 +2,12 @@ angular.module('todoGamify').controller('ProfileController', function($scope, sh
   var profileCtrl = this;
   
   profileCtrl.user = {
-    name: '',
-    avatar: '',
-    points: '',
-    maxPoint: '',
-    level: '',
-    progress: ''
+    name: null,
+    avatar: null,
+    points: null,
+    maxPoint: null,
+    level: null,
+    progress: null
   };
   
   // helper function that act safely as $apply
@@ -33,10 +33,8 @@ angular.module('todoGamify').controller('ProfileController', function($scope, sh
       profileCtrl.user.level = userData.scores[1].value.name;
       profileCtrl.user.avatar = 'https://api.playlyfe.com/v1/assets/players/' + userData.id + '?size=medium&access_token=' + access_token;
       profileCtrl.user.maxPoint = userData.scores[1].meta.high;
-      profileCtrl.user.progress = (( profileCtrl.user.points - userData.scores[1].meta.low ) / userData.scores[1].meta.high * 100);
+      profileCtrl.user.progress = ( ( profileCtrl.user.points - userData.scores[1].meta.low ) / userData.scores[1].meta.high * 100 );
     });
-    
-    console.log(profileCtrl.user);
   }
   
   sharedFunctions.setProfileHandler(init);

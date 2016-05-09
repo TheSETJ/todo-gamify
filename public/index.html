@@ -84,7 +84,7 @@
         <div class="col-sm-3" ng-controller="ProfileController as profileCtrl"> <!-- open profile -->
           <div class="well">
             
-            <div class="media">
+            <div class="media"> <!-- open user info -->
               <div class="media-left">
                 <a href="#">
                   <img class="media-object" ng-src="{{ profileCtrl.user.avatar }}" alt="avatar">
@@ -94,19 +94,19 @@
                 <h4 class="media-heading">{{ profileCtrl.user.name }}</h4>
                 <kbd>{{ profileCtrl.user.level }}</kbd>
               </div>
-            </div>
+            </div> <!-- close user info -->
             
             <hr/>
             
-            <p>
-            <code>Point:</code> <kbd>{{ profileCtrl.user.points }} / {{ profileCtrl.user.maxPoint }}</kbd> DO+
-            </p>
+            <div> <!-- open level -->
+              <p> <code>Point:</code> <kbd>{{ profileCtrl.user.points }} / {{ profileCtrl.user.maxPoint }}</kbd> DO+ </p>
             
-            <div class="progress">
-              <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{{ profileCtrl.user.progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 1%; width: {{ profileCtrl.user.progress }}%;">
-                <small class="sr-only">{{ profileCtrl.user.progress }}%</small>
+              <div class="progress">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{{ profileCtrl.user.progress }}" aria-valuemin="0" aria-valuemax="100" style="min-width: 0.5%; width: {{ profileCtrl.user.progress }}%;">
+                  <small class="sr-only">{{ profileCtrl.user.progress }}%</small>
+                </div>
               </div>
-            </div>
+            </div> <!-- close level -->
             
           </div>
         </div> <!-- close profile -->
@@ -199,11 +199,10 @@
         </div> <!-- close body -->
       
         <div class="text-center"> <!-- open top -->
-          <a class="btn btn-default" href="#top"><span class="glyphicon glyphicon-chevron-up"></span> <br/>
-          TOP
-          </a>
-        </div> <!-- close top -->
-      
+          <a class="btn btn-default" href="#top"><span class="glyphicon glyphicon-chevron-up"></span> <br/> TOP</a>
+        </div> 
+        <br/> <!-- close top -->
+        
       </div> <!-- close container -->
       
     </div> <!-- close global -->

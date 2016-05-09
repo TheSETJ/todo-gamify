@@ -1,9 +1,10 @@
-angular.module('todoGamify').controller('TodoController', function($http, sharedProperties) {
+angular.module('todoGamify').controller('TodoController', function($http, sharedProperties, sharedFunctions) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
   todoCtrl.finishedTodoList = [];
   todoCtrl.input = {
+    uid: null,
     brief: null,
     detail: null,
     priority: "low",
@@ -16,6 +17,7 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
     $('.loader-box').show();
     
     todoCtrl.input.creation = Date.now();
+    todoCtrl.input.uid = sharedProperties.getUser().id;
     
     // send new todo to server
     $http.post('/api/todos', todoCtrl.input)
@@ -24,6 +26,7 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
       
       // reset input
       todoCtrl.input = {
+        uid: null,
         brief: null,
         detail: null,
         priority: "low",
@@ -105,11 +108,10 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
   };
   
   // get all todos from server
-  (function() {
-    $('.app-box').hide();
-    $('.loader-box').show();
+  function init() {
+    var id = sharedProperties.getUser().id;
     
-    $http.get('/api/todos')
+    $http.get('/api/todos/' + id)
     .then(function(response) {
       var item = null;
       var length = response.data.length;
@@ -135,5 +137,7 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
       $('.loader-box').hide();
       $('.app-box').fadeIn(1000);
     });
-  })();
+  }
+  
+  sharedFunctions.setDataLoader(init);
 });

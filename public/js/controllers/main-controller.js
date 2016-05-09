@@ -34,12 +34,16 @@ angular.module('todoGamify').controller('MainController', function($scope, share
   if(Playlyfe.getStatus().msg != 'authenticated') {
     main.loggedIn = false;
   } else {
-    main.loggedIn = true;
+    $('.app-box').hide();
+    $('.loader-box').show();
     
     // get user data from playlyfe then init the app
     client.api('/player', 'GET', function(data) {
       sharedProperties.setUser(data);
       sharedFunctions.handleProfile();
+      sharedFunctions.loadData();
     });
+    
+    main.loggedIn = true;
   }
 });
