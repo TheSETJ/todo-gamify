@@ -81,7 +81,7 @@
       
       <div ng-show="main.loggedIn" class="row"> <!-- open container -->
       
-        <div class="col-sm-3" ng-controller="ProfileController as profileCtrl"> <!-- open profile -->
+        <div class="col-sm-4" ng-controller="ProfileController as profileCtrl"> <!-- open profile -->
           <div class="well">
             
             <div class="media"> <!-- open user info -->
@@ -111,7 +111,7 @@
           </div>
         </div> <!-- close profile -->
         
-        <div ng-controller="TodoController as todoCtrl" class="col-sm-9"> <!-- open body -->
+        <div ng-controller="TodoController as todoCtrl" class="col-sm-8"> <!-- open body -->
         
           <div ng-controller="FormController as formCtrl" class="well clearfix" id="form-wrapper"> <!-- open form -->
             <form ng-submit="todoCtrl.addTodo()">

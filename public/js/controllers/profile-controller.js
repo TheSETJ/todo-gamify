@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('ProfileController', function($scope, sharedProperties, sharedFunctions) {
+angular.module('todoGamify').controller('ProfileController', function($scope, $rootScope, sharedProperties, sharedFunctions) {
   var profileCtrl = this;
   
   profileCtrl.user = {
@@ -26,6 +26,7 @@ angular.module('todoGamify').controller('ProfileController', function($scope, sh
   function init() {
     var userData = sharedProperties.getUser();
     var access_token = client.getAccessToken();
+    var max = profileCtrl.user.maxPoint;
     
     $scope.safeApply(function() {
       profileCtrl.user.name = userData.alias;
@@ -34,6 +35,14 @@ angular.module('todoGamify').controller('ProfileController', function($scope, sh
       profileCtrl.user.avatar = 'https://api.playlyfe.com/v1/assets/players/' + userData.id + '?size=medium&access_token=' + access_token;
       profileCtrl.user.maxPoint = userData.scores[1].meta.high;
       profileCtrl.user.progress = ( ( profileCtrl.user.points - userData.scores[1].meta.low ) / userData.scores[1].meta.high * 100 );
+      
+      if(profileCtrl.user.level == "DOever") {
+        profileCtrl.user.progress = 100;
+      }
+      
+      if(max != profileCtrl.user.maxPoint && max != null) {
+        alert("Level up");
+      }
     });
   }
   

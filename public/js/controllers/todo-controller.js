@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('TodoController', function($http, sharedProperties, sharedFunctions) {
+angular.module('todoGamify').controller('TodoController', function($scope, $http, sharedProperties, sharedFunctions) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
@@ -10,6 +10,18 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
     priority: "low",
     creation: null,
     isFinished: false
+  };
+  
+  // helper function that act safely as $apply
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
   };
   
   // insert input into active todo list
@@ -81,18 +93,33 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
   // remove todo from active todo list and insert it into finished todo list
   todoCtrl.finishTodo = function finishTodo(todo) {
     var index = todoCtrl.activeTodoList.indexOf(todo);
+    var action = todo.priority + "_priority";
     
     $('.loader-box').show();
     
     // send update request to server
     $http.put('/api/todos/' + todo._id)
     .then(function(response) {
-      // on server success move todo from active todo list into finished todo list
-      todoCtrl.activeTodoList.splice(index, 1);
-      todoCtrl.finishedTodoList.unshift(response.data);
+      // trigger action
+      client.api('/action/play', 'POST', {
+        id: action
+      }, function(data) {
+        // on server and trigger success move todo from active todo list into finished todo list
+        todoCtrl.activeTodoList.splice(index, 1);
+        todoCtrl.finishedTodoList.unshift(response.data);
+        
+        // refresh profile
+        client.api('/player', 'GET', function(data) {
+          sharedProperties.setUser(data);
+          sharedFunctions.handleProfile();
+          
+          $('.loader-box').hide();
+        });
+        
+        // switch to finished list tab
+        sharedProperties.setTab(2);
+      });
       
-      // switch to finished list tab
-      sharedProperties.setTab(2);
     }, function(error) {
       // insure error status text is not empty
       if(!error.statusText) {
@@ -101,9 +128,6 @@ angular.module('todoGamify').controller('TodoController', function($http, shared
       
       alert(error.status + ": " + error.statusText);
       console.log(error);
-    })
-    .finally(function() {
-      $('.loader-box').hide();
     });
   };
   
