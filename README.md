@@ -19,3 +19,13 @@ This version has following features:
  * Data model and database
  * More complex todo with detail and priority level
  * Improved UI
+
+### v3.0.0
+
+This version has following features:
+ * Connection to a gamification platform
+ * Login/Logout system
+ * User profile
+ * Points and leveling system
+ * Achievements
+ * Improved UI
