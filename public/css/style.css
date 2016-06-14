@@ -4,7 +4,6 @@
 
 .panel-body {
   max-height: 500px;
-  overflow-y: scroll;
 }
 
 .todo-container {

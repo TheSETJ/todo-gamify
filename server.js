@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 // = data model ============
 
 var Todo = mongoose.model('Todo', {
+  uid: String,
   brief: String,
   detail: String,
   priority: String,
@@ -29,8 +30,10 @@ var Todo = mongoose.model('Todo', {
 // = api routes ============
 
 // retrieve all todos from database and send them to client
-app.get('/api/todos', function(request, response) {
-  Todo.find(function(error, todos) {
+app.get('/api/todos/:uid', function(request, response) {
+  Todo.find({
+    uid: request.params.uid
+  }, function(error, todos) {
     if(error) {
       console.log(error);
       response.send(error);
@@ -89,7 +92,7 @@ app.delete('/api/todos/:id', function(request, response) {
 // =========================
 // = server config =========
 
-var port = process.env.PORT || 8081;
+var port = process.env.PORT || 8080;
 app.listen(port, function() {
   console.log("Running Express on port " + port);
 });
