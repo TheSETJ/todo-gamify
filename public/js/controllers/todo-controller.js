@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('TodoController', function($scope, $http, sharedProperties, sharedFunctions) {
+angular.module('todoGamify').controller('TodoController', function($scope, $mdDialog, $http, sharedProperties, sharedFunctions) {
   var todoCtrl = this;
   
   todoCtrl.activeTodoList = [];
@@ -22,6 +22,36 @@ angular.module('todoGamify').controller('TodoController', function($scope, $http
     } else {
       this.$apply(fn);
     }
+  };
+  
+  // helper function to display confirm
+  $scope.confirm = function() {
+    var dialog = $mdDialog.confirm({
+      title: 'Wait...',
+      textContent: 'If you cancel this task, you will lose its points. Are you sure?',
+      areaLabel: 'Cancel confirm',
+      ok: 'Do it!',
+      cancel: 'I don\'t lose points!'
+    });
+    
+    $mdDialog.show(dialog)
+    .then(function() {
+      $scope.confirmed = true;
+    }, function() {
+      $scope.confirmed = false;
+    });
+  };
+  
+  // helper function to display alert
+  $scope.alert = function(message) {
+    var dialog = $mdDialog.alert({
+      title: 'Oops...',
+      textContent: message,
+      areaLabel: 'Error alert',
+      ok: 'I try later'
+    });
+    
+    $mdDialog.show(dialog);
   };
   
   // insert input into active todo list
@@ -55,7 +85,7 @@ angular.module('todoGamify').controller('TodoController', function($scope, $http
         error.statusText = "Unknown Error. Please Check Your Connection.";
       }
       
-      alert(error.status + ": " + error.statusText);
+      $scope.alert(error.status + ": " + error.statusText);
       console.log(error);
     })
     .finally(function() {
@@ -64,30 +94,54 @@ angular.module('todoGamify').controller('TodoController', function($scope, $http
   };
   
   // delete todo from its list
-  todoCtrl.deleteTodo = function deleteTodo(list, todo) {
+  todoCtrl.deleteTodo = function deleteTodo(list, todo, signal) {
     var index = list.indexOf(todo);
     
-    $('.loader-box').show();
+    var deleteIt = function() {
+      $('.loader-box').show();
     
-    // send todo id for deletion to server 
-    $http.delete('/api/todos/' + todo._id)
-    .then(function(response) {
-      // on server success delete todo from list too
-      list.splice(index, 1);
-    }, function(error) {
-      // insure error status text is not empty
-      if(!error.statusText) {
-        error.statusText = "Unknown Error. Please Check Your Connection.";
-      }
+      // send todo id for deletion to server 
+      $http.delete('/api/todos/' + todo._id)
+      .then(function(response) {
+        // on server success delete todo from list too
+        list.splice(index, 1);
+      }, function(error) {
+        // insure error status text is not empty
+        if(!error.statusText) {
+          error.statusText = "Unknown Error. Please Check Your Connection.";
+        }
+        
+        $scope.alert(error.status + ": " + error.statusText);
+        console.log(error);
+      })
+      .finally(function() {
+        $('.loader-box').hide();
+      });
+    };
+    
+    // cancel or delete?
+    if(signal) {
+      // if cancel then get confirmation
+      $scope.confirm();
       
-      alert(error.status + ": " + error.statusText);
-      console.log(error);
-    })
-    .finally(function() {
-      $('.loader-box').hide();
-    });
-    
-    //todoCtrl.save();
+      // wait till user answers
+      var checkAnswer = setInterval(function() {
+        if($scope.confirmed !== undefined) {
+          if($scope.confirmed) {
+            deleteIt();
+          }
+          
+          // reset value
+          $scope.confirmed = undefined;
+          
+          clearInterval(checkAnswer);
+        }
+      }, 500);
+      
+    } else {
+      // if delete then do it
+      deleteIt();
+    }
   };
   
   // remove todo from active todo list and insert it into finished todo list
@@ -126,7 +180,7 @@ angular.module('todoGamify').controller('TodoController', function($scope, $http
         error.statusText = "Unknown Error. Please Check Your Connection.";
       }
       
-      alert(error.status + ": " + error.statusText);
+      $scope.alert(error.status + ": " + error.statusText);
       console.log(error);
     });
   };
@@ -154,7 +208,7 @@ angular.module('todoGamify').controller('TodoController', function($scope, $http
         error.statusText = "Unknown Error. Please Check Your Connection.";
       }
       
-      alert(error.status + ": " + error.statusText);
+      $scope.alert(error.status + ": " + error.statusText);
       console.log(error);
     })
     .finally(function() {

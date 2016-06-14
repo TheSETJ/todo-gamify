@@ -1,4 +1,4 @@
-angular.module('todoGamify', []);
+angular.module('todoGamify', ['ngMaterial']);
 
 angular.module('todoGamify').run(function() {
   client = new Playlyfe.init({

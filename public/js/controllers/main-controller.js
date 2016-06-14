@@ -1,4 +1,4 @@
-angular.module('todoGamify').controller('MainController', function($scope, sharedProperties, sharedFunctions) {
+angular.module('todoGamify').controller('MainController', function($scope, $mdDialog, sharedProperties, sharedFunctions) {
   var main = this;
   
   main.loggedIn = false;
@@ -14,6 +14,43 @@ angular.module('todoGamify').controller('MainController', function($scope, share
     } else {
       this.$apply(fn);
     }
+  };
+  
+  // display help
+  main.help = function help() {
+    $mdDialog.show({
+      template:
+      '<md-dialog aria-label="Help dialog">' +
+      '  <md-toolbar class="md-primary">' +
+      '    <div class="md-toolbar-tools">' +
+      '      <h2>About</h2>' +
+      '      <span flex></span>' +
+      '    </div>' +
+      '  </md-toolbar>' +
+      '  <md-dialog-content>' +
+      '    <div class="md-dialog-content">' +
+      '      <p>Welcome to <b>Todo Gamify</b>! </p>' +
+      '      <p>This is a todo app like all the others, but you\'ll have more fun here.</p>' +
+      '      <p>You may wonder why? I\'ll tell you.</p>' +
+      '      <p>Here you add finish your tasks like all other todo apps, ' +
+             'but you\'ll get reward for every task you finish and that\'s why it\'s fun. More impostant task you do, more points you\'ll get. Simple?</p>' +
+      '      <p>OK! Here you are at the beginning of your task finishing journey. Go ahead and you\'ll find much more suprise in your path.</p>' +
+      '      <p>Good luck!</p>' +
+      '    </div>' +
+      '  </md-dialog-content>' +
+      '  <md-dialog-actions>' +
+      '    <md-button ng-click="hide()" class="md-primary md-raised">' +
+      '      I got it' +
+      '    </md-button>' +
+      '  </md-dialog-actions>' +
+      '</md-dialog>',
+      controller: function($scope, $mdDialog) {
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+      },
+      clickOutsideToClose: true
+    });
   };
   
   // login to app
